@@ -1,0 +1,29 @@
+commit d606109aa8fe123f645a291b403ff4b24418ea8c
+Author: Zihan <zihan.chen@mail.utoronto.ca>
+Date:   Thu Feb 11 13:56:43 2016 -0500
+
+    version 5.0 Updaing the assignment report and adding two reports for unit testing and profiling.
+
+commit 4804f3fea7c3f5701b49c6e45cf5c5c85afa274f
+Author: Zihan <zihan.chen@mail.utoronto.ca>
+Date:   Thu Feb 11 00:07:19 2016 -0500
+
+    version4 modified the makefile_boost and update the assignment report
+
+commit 8471ef18834139c3c91660929c49ac02c22a1bf9
+Author: Zihan <zihan.chen@mail.utoronto.ca>
+Date:   Wed Feb 10 20:48:37 2016 -0500
+
+    version3.0 updating almost every file because I changed the method for runing with tick-tock module
+
+commit 436289717351f887555cbc72006a49ad73a717b7
+Author: Zihan <zihan.chen@mail.utoronto.ca>
+Date:   Tue Feb 9 15:24:46 2016 -0500
+
+    Version2.0, updating boost testfile and assignment report
+
+commit eb452f7aa25aa034b16766aaa64d088fc1b96d71
+Author: Zihan <zihan.chen@mail.utoronto.ca>
+Date:   Wed Feb 3 19:43:07 2016 -0500
+
+    version 1.0

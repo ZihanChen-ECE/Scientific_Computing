@@ -1,0 +1,94 @@
+Problem #1
+I.First analyze the original version, 'ants.cc' 
+1. Using the time command to see the time for timing whole program:
+$ time ./antrun
+result:
+real	0m0.886s
+user	0m0.396s
+sys	0m0.000s
+Then I applied it on SciNet using the same command, result:
+
+
+2. Instrumenting the code with the tick-tock calls. I put them into two places, one is for initial session, and the other is the simulation session. Writing a makefile for compiling
+result:
+Timing summary:
+#Initialization took:	0.00708818 sec
+#Report took:     	0.00133 sec
+
+Timing summary:
+#Simulation took:	0.7091 sec
+#Report took:     	0.005494 sec
+
+From above I find simulation took much more time than Initialization. Thus I inspected which part of the simulation that is most time consuming for 40 loops. The result is shown following:
+time for output: 0.139996
+time for simulate number of ants: 0.563933
+time for updating total ants: 0.01947
+Thus, the simulating number of ants part took 79.53% time of the whole simulation, which is the bottle-necks of it. For improving the performance, we need to make the double loops in simulating part faster, which means we don't need to calculate the whole 356*356 elements in total but each time calculate those near the table. By reducing the calculatuin amount, the computing performance can be improved.
+
+Similarly, I implied the codes on Scinet, and also took 7 samples for instance. The results werem shown below:
+
+
+
+
+
+3.Implying gprof for time consumption surveillance
+(1) without the time keeper "tick-tock":
+I use a Makefile to compile it (including gprof). The results from gprof and gprof --line was stored in 'ants/gprof_result.txt' and 'ants/gprofline_result.txt'.
+For simulating in Scinet, I also stored the profiling result in the two txt files under my directory.
+(2) with the time keeper "tick-tock":
+I also use a Makefile to compile it(including gprof). The results from gprof and gprof --line was stored in 'ants/ants_with_timing/gprof_result.txt' and 'ants/ants_with_timing/gprofline_result.txt'.
+For simulating in Scinet, I also stored the profiling result in the two txt files under my directory.
+
+
+II. Then, I analyze the modified modules I created in HW#2.
+1. Using the time command to see the time for timing whole program:
+$ time ./antrun
+result:
+real	0m0.804s
+user	0m0.352s
+sys	0m0.000s
+Then I applied it on SciNet using the same command, result:
+
+
+
+
+2. Instrumenting the code with the tick-tock calls. I put them into two places, one is for function 'initial', and the other is for function 'timestep'. I wrote a Makefile for compiling.
+Result:
+Timing summary:
+#Initialization took:	0.0180409 sec
+#Report took:     	0.006836 sec
+
+Timing summary:
+#Simulation took:	0.831 sec
+#Report took:     	0.00543 sec
+Comparing with the result from I.2, we could find that the simulation took more time for 0.13s and initialization took more time too. I guess this is because separating the code into several codes is more likely to consuming time.
+So I also looked into the time consumption for output and timestep. The results is shown below:
+Timing for output: 0.177673
+Timing for timestep: 0.66394
+
+
+
+
+3. Implying gprof for time consumption surveillance
+(1) without the time keeper "tick-tock":
+I use a Makefile to compile it (including gprof). The results from gprof and gprof --line was stored in 'modified_ants/gprof_result.txt' and 'modified_ants/gprofline_result.txt'.
+For simulating in Scinet, I also stored the profiling result in the two txt files under my directory.
+(2) with the time keeper "tick-tock":
+I also use a Makefile to compile it(including gprof). The results from gprof and gprof --line was stored in 'modified_ants/modified_ants_with_timing/gprof_result.txt' and 'modified_ants/modified_ants_with_timing/gprofline_result.txt'.
+For simulating in Scinet, I also stored the profiling result in the two txt files under my directory.
+
+
+
+
+Problem #2
+I implied the Boost unit testing to test the single_time_step module. I initialize all the arrays manually(like number_of_ants or velocity_of_ants) and see whether the first timestep outputs the right result in HW#2. The result is stored in a textfile named "unit_test_result.txt" in Assign3/boost and is shown below:
+
+
+
+
+
+
+
+  
+
+

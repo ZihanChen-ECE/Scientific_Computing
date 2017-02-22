@@ -1,0 +1,16 @@
+Report of Assignment 6&7 Zihan Chen
+
+In this homework I uses 3 functions to accomplish the tasks:
+1. string* create_filename() //Creating the file names of detected waveform, like "detectionXX.rat". It's in "filename.cpp".
+2. int main() //Main function, reading the content from the predicted and detected waveform datasets, then applying FFT to get the spectur, and finally cauculating the correlation coefficient between the predicted waveform and each of the waveforms. It's in "readdata.cpp".
+3. double** insertsort(double *array, int size) // using insert sort to find the five maximum CC and their datasets number. It's in "sort.cpp".
+
+The output results are in "CCoutput.txt"
+From the result we can see the 5 most significant candidates (those with the 5 largest values of the correlation coefficient) from the observations set is:
+Datasets       Correlation  coefficient
+20             0.99222
+15             0.967221
+01             0.939055
+17             0.896847
+02             0.887038
+So the most significant candidates are: 20, 15, 01, 17 and 02.

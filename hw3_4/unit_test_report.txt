@@ -1,0 +1,18 @@
+I implied the Boost unit testing to test the single_time_step module. In "test_timestep.cpp", I initialize all the arrays manually(like number_of_ants or velocity_of_ants) and see whether the first timestep outputs the right result in HW#2. I make a makefile(named makefile_boost) to run it. The result is stored in a textfile named "boost_result.txt" in Assign3/boost and is shown below:
+$./testrun > boost_result.txt
+
+*** No errors detected
+In boost_result.txt:
+Running 1 test case...
+971.998
+Since it shows no error, I think the function timestep is right.
+Also, I ran the unit test on SciNet, and also create a "boost_result.txt" for it. But this time I took a dynamic linked library in the makefile(named makefile_boost) as added " ${CPPFLAGS} ${LDFLAGS} -lboost_unit_test_framework -DBOOST_TEST_DYN_LINK" and change CPPFLAGS to "CPPFLAGS = -I${SCINET_BOOST_INC} -O2 -std=c++11" and "LDFLAGS = -L${SCINET_BOOST_LIB}". 
+This time I load  openmpi/gcc/1.6.4, gcc/4.8.1, cxxlibraries/rarray/1.0 and cxxlibraries/boost/1.54.0-gcc4.8.1
+The result is shown below:
+$./testrun > boost_result.txt
+
+*** No errors detected
+In boost_result.txt:
+Running 1 test case...
+971.998
+Since it shows no error, I think the function timestep is right.

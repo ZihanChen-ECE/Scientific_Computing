@@ -1,0 +1,21 @@
+CPP = g++
+CPPFLAGS = -I${GSLINC}-std=c++11 -O2 -pg -g
+LDFLAGS = -L${CSLINC}
+
+all: antrun
+
+antrun: ants.cpp
+	${CXX} ${CXXFLAGS} -o antrun ants.cpp 
+	
+run: antrun
+	./antrun --matsize=2500
+
+
+gprof: antrun gmon.out
+	$ gprof antrun gmon.out > gprof_result_ants.txt
+
+gprofline: antrun gmon.out
+	$ gprof --line antrun gmon.out | more > gprofline_result_ants.txt
+
+clean:
+	rm -f *.o

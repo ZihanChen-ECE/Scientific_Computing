@@ -1,0 +1,82 @@
+Implying gprof for time consumption surveillance
+1. Original ants.cc
+(1) without the time keeper "tick-tock":
+I use a Makefile(named makefile_ants) to compile it (including gprof). I use "$g++ -std=c++11 -O2 -pg -gstabs -o antrun ants.cpp" in the makefile to create the output,"$./antrun --matsize=2500"to create the gmon.out and "$gprof --line antrun gmon.out | more > gprofline_result_ants.txt"to record the line-by-line result. All the things are shown in makefile_ants.
+The results from gprof and gprof --line was stored in 'ants/gprof_result_ants.txt' and 'ants/gprofline_result_ants.txt'.
+The part of results from gprof --line is shown bellow:
+  %   cumulative   self              self     total
+ time   seconds   seconds    calls  Ts/call  Ts/call  name
+ 50.21      0.03     0.03                             main (ants.cpp:58 @ 400fc$
+ 16.74      0.04     0.01                             main (ants.cpp:50 @ 400f7$
+ 16.74      0.05     0.01                             main (ants.cpp:55 @ 400fa$
+  8.37      0.06     0.01                             main (ants.cpp:52 @ 400f9$
+  8.37      0.06     0.01                             main (ants.cpp:57 @ 400fa$ 
+From the results we can see the line 55,50 and 58 took most of time. Especially for for line 58, it took more than half time. So I inspected into ants.cpp and find these lines are in the loop of updating the velocity of ants(50) and new number of ants(55,58). 
+
+(2) with the time keeper "tick-tock":
+I also use a Makefile(named makefile_ants_timing) to compile it(including gprof). I use "$g++ -std=c++11 -O2 -pg -g -o antrun ants.o ticktock.o" in the makefile to create the output,"$./antrun --matsize=2500"to create the gmon.out and "$gprof --line antrun gmon.out | more > gprofline_result_antstiming.txt"to record the line-by-line result. All the things are shown in makefile_ants_timing.
+The results from gprof and gprof --line was stored in 'ants/ants_timing/gprof_result_antstiming.txt' and 'ants/ants_timing/gprofline_result_antstiming.txt'.
+The part of results from gprof --line is shown bellow:
+ %   cumulative   self              self     total
+ time   seconds   seconds    calls  Ts/call  Ts/call  name
+ 41.79      0.05     0.05                             main (ants.cpp:97 @ 40125$
+  8.36      0.06     0.01                             main (ants.cpp:31 @ 40109$
+  8.36      0.07     0.01                             main (ants.cpp:70 @ 40109$
+  8.36      0.08     0.01                             main (ants.cpp:89 @ 40120$
+  8.36      0.09     0.01                             main (ants.cpp:94 @ 40121$
+  8.36      0.10     0.01                             main (ants.cpp:94 @ 40123$
+  8.36      0.11     0.01                             main (ants.cpp:96 @ 40124$
+  4.18      0.12     0.01                             main (ants.cpp:94 @ 40123$
+  4.18      0.12     0.01                             main (ants.cpp:96 @ 40123$
+From the results we can see the line 97 took almost half time. So I inspected into ants.cpp and find this line is the same as the line 58 in last case, for updating the new number of ants. 
+
+
+2.Moduled ants
+(1) without the time keeper "tick-tock":
+I use a Makefile(named makefile_modified) to compile it (including gprof). I use "$g++ -std=c++11 -O2 -pg -g -o antrun main.o initialization.o timestep.o output.o" in the makefile to create the output,"$./antrun --matsize=2500"to create the gmon.out and "$gprof --line antrun gmon.out | more > gprofline_result_modified.txt"to record the line-by-line result. All the things are shown in makefile_modified.
+The results from gprof and gprof --line was stored in 'modified_ants/gprof_result_modified' and 'modified_ants/gprof_result_modified'.
+The part of results from gprof --line is shown bellow:
+ %   cumulative   self              self     total
+ time   seconds   seconds    calls  Ts/call  Ts/call  name
+ 13.35      0.02     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 401eea)
+ 10.01      0.04     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:15 @ 401e85)
+  6.68      0.05     0.01                             output(ra::rarray<double, 2>, float, int, int) (output.cpp:9 @ 402000)
+  6.68      0.06     0.01                             output(ra::rarray<double, 2>, float, int, int) (output.cpp:9 @ 402011)
+  6.68      0.07     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:17 @ 401e99)
+  6.68      0.08     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:18 @ 401eb9)
+  6.68      0.09     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 401f4c)
+  6.68      0.10     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 401f52)
+  6.68      0.11     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:28 @ 401f5a)
+  6.68      0.12     0.01                             base (rarray:1761 @ 401dcb)
+  6.68      0.13     0.01                             base (rarray:1766 @ 401e34)
+  6.68      0.14     0.01                             operator[] (rarray:1373 @ 401ed8)
+  3.34      0.14     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:20 @ 401e8e)
+  3.34      0.15     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 401edc)
+  3.34      0.15     0.01                             operator[] (rarray:1373 @ 401ee6)
+From the results we can see the line 23 and 15 took most of time. So I inspected into timestep.cpp. As expected, these lines are in the loop of updating the velocity of ants(15) and new number of ants(23). However, the ratio of them decreased, more time is spent on other loop parts. THis is the main difference between original one and moduled one. 
+
+(2) with the time keeper "tick-tock":
+I also use a Makefile(named makefile_modified_timing) to compile it(including gprof).  I use "$g++ -std=c++11 -O2 -pg -g -o antrun main.o initialization.o timestep.o output.o ticktock.o" in the makefile to create the output,"$./antrun --matsize=2500"to create the gmon.out and "$gprof --line antrun gmon.out | more > gprofline_result_modified_antstiming.txt"to record the line-by-line result. All the things are shown in makefile_modified_timing.
+The results from gprof and gprof --line was stored in 'modified_ants/modified_ants_timing/gprof_result_modified_antstiming.txt' and 'modified_ants/modified_ants_timing/gprofline_result_modified_antstiming.txt'.
+The part of results from gprof --line is shown bellow:
+ 16.69      0.03     0.03                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:15 @ 402175)
+ 11.13      0.05     0.02                             output(ra::rarray<double, 2>, float, int, int) (output.cpp:9 @ 402301)
+ 11.13      0.07     0.02                             base (rarray:1761 @ 4020bb)
+  8.34      0.09     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 4021cc)
+  8.34      0.10     0.02                             operator[] (rarray:1373 @ 4021d6)
+  8.34      0.12     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 402242)
+  5.56      0.13     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:17 @ 402189)
+  5.56      0.14     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:16 @ 4021a0)
+  5.56      0.15     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:22 @ 4021ac)
+  5.56      0.16     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 4021da)
+  5.56      0.17     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 40223c)
+  2.78      0.17     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:20 @ 40218c)
+  2.78      0.18     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:22 @ 402192)
+  2.78      0.18     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:28 @ 40224a)
+From the results we can see the line 15 took most of time as well, because the timestep.cpp remained same in these two cases. However in this case output and "base (rarray:1761 @ 4020bb)" took more time than line 23(updating new number of ants).
+
+
+
+
+
+

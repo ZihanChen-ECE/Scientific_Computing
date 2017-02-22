@@ -1,0 +1,11 @@
+commit bbce7348131199a92df6bbdf743e1afce2330b3a
+Author: ZihanChen <zihan.chen@mail.utoronto.ca>
+Date:   Thu Mar 10 12:04:22 2016 -0500
+
+    modifying the report
+
+commit 27d165ec49161ce9a43cb3d62c533503ceebdf18
+Author: ZihanChen <zihan.chen@mail.utoronto.ca>
+Date:   Thu Mar 10 11:58:41 2016 -0500
+
+    all the source, header and makefile and report

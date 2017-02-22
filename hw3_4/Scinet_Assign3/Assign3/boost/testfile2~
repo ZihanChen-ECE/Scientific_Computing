@@ -1,0 +1,25 @@
+CPP = g++
+CPPFLAGS = -I${GSLINC} -O2
+LDFLAGS = -L${CSLINC}
+
+all: testrun
+
+#testrun: test_timestep.o timestep.o 
+#	${CPP} -o testrun2 test_timestep.o timestep.o 
+
+testrun2: test_timestep2.o timestep.o 
+	${CPP} -lboost_unit_test_framwork -DBOOST_TEST_DYN_LINK -o testrun2 test_timestep2.o timestep.o 
+
+test_timestep2.o: test_timestep2.cpp ant.h
+	${CPP} ${CPPFLAGS} -c -o test_timestep2.o test_timestep2.cpp
+
+timestep.o: timestep.cpp
+	${CPP} ${CPPFLAGS} -c -o timestep.o timestep.cpp
+
+	
+
+run: testrun
+	./testrun
+
+clean:
+	rm -f  *o 

@@ -1,0 +1,182 @@
+Problem #1
+I.First analyze the original version, 'ants.cc' 
+1. Using the time command to see the time for timing whole program:
+$ time ./antrun
+result:
+real	0m0.886s
+user	0m0.396s
+sys	0m0.000s
+Then I applied it on SciNet using the same command, result:
+real	0m0.350s
+user	0m0.331s
+sys	0m0.001s
+Apparently, the real time reduced a lot while the user time didn't change much. I guess although the supercomputer runs much faster than my laptop, the amount of CPU time spent outside the kernel within the process stays close to my computer.
+
+
+
+2. Instrumenting the code with the tick-tock calls. I put them into two places, one is for initial session, and the other is the simulation session. Writing a makefile for compiling
+
+result:
+Timing summary:
+#Initialization took:	0.00708818 sec
+#Report took:     	0.00133 sec
+Timing summary:
+#Simulation took:	0.7091 sec
+#Report took:     	0.005494 sec
+
+From above I find simulation took much more time than Initialization.Thus I inspected which part of the simulation that is most time consuming for 40 loops. The result is shown following:
+
+time for output: 0.139996
+time for simulate number of ants: 0.563933
+time for updating total ants: 0.01947
+
+Thus, the simulating number of ants part took 79.53% of the whole simulation time, which is the bottle-necks of it. 
+To compare with the local results, I ran it on SciNet, and got the result of time consuming for 40 loops:
+
+time for output: 0.00644279
+time for simulate number of ants: 0.305381
+time for updating total ants: 0.00421619
+
+Thanks to the high performance of supercomputer, all the parts became faster. This time the simulating number of ants part took 86.27% of the whole simulation time. It remained a bottle-necks of the simulation.
+
+
+
+3.Implying gprof for time consumption surveillance(I also write them in profiling_report.txt)
+(1) without the time keeper "tick-tock":
+I use a Makefile(named makefile_ants) to compile it (including gprof). The results from gprof and gprof --line was stored in 'ants/gprof_result_ants.txt' and 'ants/gprofline_result_ants.txt'.
+The part of results from gprof --line is shown bellow:
+  %   cumulative   self              self     total
+ time   seconds   seconds    calls  Ts/call  Ts/call  name
+ 50.21      0.03     0.03                             main (ants.cpp:58 @ 400fc$
+ 16.74      0.04     0.01                             main (ants.cpp:50 @ 400f7$
+ 16.74      0.05     0.01                             main (ants.cpp:55 @ 400fa$
+  8.37      0.06     0.01                             main (ants.cpp:52 @ 400f9$
+  8.37      0.06     0.01                             main (ants.cpp:57 @ 400fa$ 
+From the results we can see the line 55,50 and 58 took most of time. Especially for for line 58, it took more than half time. So I inspected into ants.cpp and find these lines are in the loop of updating the velocity of ants(50) and new number of ants(55,58). This showed the same result in I.2 above.
+
+(2) with the time keeper "tick-tock":
+I also use a Makefile(named makefile_ants_timing) to compile it(including gprof). The results from gprof and gprof --line was stored in 'ants/ants_timing/gprof_result_antstiming.txt' and 'ants/ants_timing/gprofline_result_antstiming.txt'.
+The part of results from gprof --line is shown bellow:
+ %   cumulative   self              self     total
+ time   seconds   seconds    calls  Ts/call  Ts/call  name
+ 41.79      0.05     0.05                             main (ants.cpp:97 @ 40125$
+  8.36      0.06     0.01                             main (ants.cpp:31 @ 40109$
+  8.36      0.07     0.01                             main (ants.cpp:70 @ 40109$
+  8.36      0.08     0.01                             main (ants.cpp:89 @ 40120$
+  8.36      0.09     0.01                             main (ants.cpp:94 @ 40121$
+  8.36      0.10     0.01                             main (ants.cpp:94 @ 40123$
+  8.36      0.11     0.01                             main (ants.cpp:96 @ 40124$
+  4.18      0.12     0.01                             main (ants.cpp:94 @ 40123$
+  4.18      0.12     0.01                             main (ants.cpp:96 @ 40123$
+From the results we can see the line 97 took almost half time. So I inspected into ants.cpp and find this line is the same as the line 58 in last case, for updating the new number of ants. This showed the same result in I.2 above.
+
+
+
+
+II. Then, I analyze the modified modules I created in HW#2.
+1. Using the time command to see the time for timing whole program:
+$ time ./antrun
+result:
+real	0m0.804s
+user	0m0.352s
+sys	0m0.000s
+Then I applied it on SciNet using the same command, result:
+real	0m0.373s
+user	0m0.369s
+sys	0m0.002s
+The result is similar to I.1, while user time even increased this time. So we need to pay attention to the CPU time spent in user-mode code when we are doing optimization for HPC.
+
+
+
+2. Instrumenting the code with the tick-tock calls. I put them into two places, one is for function 'initial', and the other is for function 'timestep'. I wrote a Makefile for compiling.
+Result:
+Timing summary:
+#Initialization took:	0.0180409 sec
+#Report took:     	0.006836 sec
+Timing summary:
+#Simulation took:	0.831 sec
+#Report took:     	0.00543 sec
+Comparing with the result from I.2, we could find that the simulation took more time for 0.13s and initialization took more time too. I guess this is because separating the code into several codes is more likely to consuming time.
+
+So I also looked into the time consumption for output and timestep(40 loops). The results is shown below:
+Timing for output: 0.177673
+Timing for timestep: 0.66394
+While runing on SciNet I also got the time for output and timestep(40 loops):
+Timing for output: 0.022516
+Timing for timestep: 0.332168
+Comparing the two results, it's easy to see that output time got much reduced, while timestep time only reduced half. This is compatible with the results in I.2.
+
+
+
+3. Implying gprof for time consumption surveillance(I also write them in profiling_report.txt)
+(1) without the time keeper "tick-tock":
+I use a Makefile(named makefile_modified) to compile it (including gprof). The results from gprof and gprof --line was stored in 'modified_ants/gprof_result_modified' and 'modified_ants/gprof_result_modified'.
+The part of results from gprof --line is shown bellow:
+ %   cumulative   self              self     total
+ time   seconds   seconds    calls  Ts/call  Ts/call  name
+ 13.35      0.02     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 401eea)
+ 10.01      0.04     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:15 @ 401e85)
+  6.68      0.05     0.01                             output(ra::rarray<double, 2>, float, int, int) (output.cpp:9 @ 402000)
+  6.68      0.06     0.01                             output(ra::rarray<double, 2>, float, int, int) (output.cpp:9 @ 402011)
+  6.68      0.07     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:17 @ 401e99)
+  6.68      0.08     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:18 @ 401eb9)
+  6.68      0.09     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 401f4c)
+  6.68      0.10     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 401f52)
+  6.68      0.11     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:28 @ 401f5a)
+  6.68      0.12     0.01                             base (rarray:1761 @ 401dcb)
+  6.68      0.13     0.01                             base (rarray:1766 @ 401e34)
+  6.68      0.14     0.01                             operator[] (rarray:1373 @ 401ed8)
+  3.34      0.14     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:20 @ 401e8e)
+  3.34      0.15     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 401edc)
+  3.34      0.15     0.01                             operator[] (rarray:1373 @ 401ee6)
+From the results we can see the line 23 and 15 took most of time. So I inspected into timestep.cpp. As expected, these lines are in the loop of updating the velocity of ants(15) and new number of ants(23), just same as line 50 and 58 in I.2 This showed the same result in I.3 above. However, the ratio of them decreased, more time is spent on other loop parts. THis is the main difference between original one and moduled one. 
+
+(2) with the time keeper "tick-tock":
+I also use a Makefile(named makefile_modified_timing) to compile it(including gprof). The results from gprof and gprof --line was stored in 'modified_ants/modified_ants_timing/gprof_result_modified_antstiming.txt' and 'modified_ants/modified_ants_timing/gprofline_result_modified_antstiming.txt'.
+The part of results from gprof --line is shown bellow:
+ 16.69      0.03     0.03                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:15 @ 402175)
+ 11.13      0.05     0.02                             output(ra::rarray<double, 2>, float, int, int) (output.cpp:9 @ 402301)
+ 11.13      0.07     0.02                             base (rarray:1761 @ 4020bb)
+  8.34      0.09     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 4021cc)
+  8.34      0.10     0.02                             operator[] (rarray:1373 @ 4021d6)
+  8.34      0.12     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 402242)
+  5.56      0.13     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:17 @ 402189)
+  5.56      0.14     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:16 @ 4021a0)
+  5.56      0.15     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:22 @ 4021ac)
+  5.56      0.16     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 4021da)
+  5.56      0.17     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 40223c)
+  2.78      0.17     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:20 @ 40218c)
+  2.78      0.18     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:22 @ 402192)
+  2.78      0.18     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:28 @ 40224a)
+From the results we can see the line 15 took most of time as well, because the timestep.cpp remained same in these two cases. However in this case output and "base (rarray:1761 @ 4020bb)" took more time than line 23(updating new number of ants).
+
+
+For improving the performance, I have some suggestions:
+(1)remove the loop of updating total ants because it is recalculated.
+(2)doing cosine and sine calculating took a lot time for the double loop. maybe we can move them out of the loop a just calculate it once.
+(3)we need to make the double loops in simulating part faster, which means we don't need to calculate the whole 356*356 elements in total but each time calculate those near the table. By reducing the calculatuin amount, the computing performance can be improved.
+
+
+
+
+Problem #2(I write it also in unit_test_report.txt)
+I implied the Boost unit testing to test the single_time_step module. In "test_timestep.cpp", I initialize all the arrays manually(like number_of_ants or velocity_of_ants) and see whether the first timestep outputs the right result in HW#2. I make a makefile(named makefile_boost) to run it. The result is stored in a textfile named "boost_result.txt" in Assign3/boost and is shown below:
+$./testrun > boost_result.txt
+
+*** No errors detected
+In boost_result.txt:
+Running 1 test case...
+971.998
+Since it shows no error, I think the function timestep is right.
+Also, I ran the unit test on SciNet, and also create a "boost_result.txt" for it. But this time I took a dynamic linked library in the makefile(named makefile_boost) as added " ${CPPFLAGS} ${LDFLAGS} -lboost_unit_test_framework -DBOOST_TEST_DYN_LINK" and change CPPFLAGS to "CPPFLAGS = -I${SCINET_BOOST_INC} -O2 -std=c++11" and "LDFLAGS = -L${SCINET_BOOST_LIB}". 
+This time I load  openmpi/gcc/1.6.4, gcc/4.8.1 and cxxlibraries/boost/1.54.0-gcc4.8.1
+The result is shown below:
+$./testrun > boost_result.txt
+
+*** No errors detected
+In boost_result.txt:
+Running 1 test case...
+971.998
+Since it shows no error, I think the function timestep is right.
+
+

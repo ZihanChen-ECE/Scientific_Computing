@@ -1,0 +1,11 @@
+commit afae4a7e03950370991e455b0515be3a4c5a4471
+Author: ZihanChen <zihan.chen@utoronto.ca>
+Date:   Thu Mar 24 18:42:58 2016 -0400
+
+    modified report
+
+commit 028df0c131393c3b00994679f7afad0395e9cdac
+Author: ZihanChen <zihan.chen@utoronto.ca>
+Date:   Thu Mar 24 18:16:20 2016 -0400
+
+    All the source file, header file and makefile for the Assignment8. I also wrote a report to explain what I did for completing the required functions.

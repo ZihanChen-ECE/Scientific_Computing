@@ -1,0 +1,209 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 16.69      0.03     0.03                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:15 @ 402175)
+ 11.13      0.05     0.02                             output(ra::rarray<double, 2>, float, int, int) (output.cpp:9 @ 402301)
+ 11.13      0.07     0.02                             base (rarray:1761 @ 4020bb)
+  8.34      0.09     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 4021cc)
+  8.34      0.10     0.02                             operator[] (rarray:1373 @ 4021d6)
+  8.34      0.12     0.02                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 402242)
+  5.56      0.13     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:17 @ 402189)
+  5.56      0.14     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:16 @ 4021a0)
+  5.56      0.15     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:22 @ 4021ac)
+  5.56      0.16     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 4021da)
+  5.56      0.17     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 40223c)
+  2.78      0.17     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:20 @ 40218c)
+  2.78      0.18     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:22 @ 402192)
+  2.78      0.18     0.01                             timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:28 @ 40224a)
+  0.00      0.18     0.00      160     0.00     0.00  elapsed_time() (ticktock.cc:32 @ 4023e0)
+  0.00      0.18     0.00       80     0.00     0.00  TickTock::tick() (ticktock.cc:45 @ 402420)
+  0.00      0.18     0.00       80     0.00     0.00  TickTock::silent_tock() const (ticktock.cc:57 @ 402500)
+  0.00      0.18     0.00       40     0.00     0.00  output(ra::rarray<double, 2>, float, int, int) (output.cpp:4 @ 4022c0)
+  0.00      0.18     0.00       40     0.00     0.00  timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:7 @ 402060)
+  0.00      0.18     0.00        3     0.00     0.00  ra::rarray<double, 2>::base(double* const*) (rarray:1757 @ 401190)
+  0.00      0.18     0.00        3     0.00     0.00  ra::rarray<double, 2>::init_data(int const*, int) (rarray:1482 @ 401090)
+  0.00      0.18     0.00        1     0.00     0.00  _GLOBAL__sub_I__Z6outputN2ra6rarrayIdLi2EEEfii (output.cpp:14 @ 4023b0)
+  0.00      0.18     0.00        1     0.00     0.00  _GLOBAL__sub_I__Z7initialN2ra6rarrayIdLi2EEES1_ii (initialization.cpp:37 @ 402030)
+  0.00      0.18     0.00        1     0.00     0.00  _GLOBAL__sub_I__Z8timestepN2ra6rarrayIdLi2EEES1_S1_fffi (timestep.cpp:34 @ 402290)
+  0.00      0.18     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN8TickTock4tickEv (ticktock.cc:62 @ 402530)
+  0.00      0.18     0.00        1     0.00     0.00  _GLOBAL__sub_I_main (main.cpp:77 @ 401de0)
+  0.00      0.18     0.00        1     0.00     0.00  initial(ra::rarray<double, 2>, ra::rarray<double, 2>, int, int) (initialization.cpp:6 @ 401e10)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 5.55% of 0.18 seconds
+
+index % time    self  children    called     name
+                0.00    0.00      80/160         TickTock::tick() (ticktock.cc:45 @ 402420) [211]
+                0.00    0.00      80/160         TickTock::silent_tock() const (ticktock.cc:57 @ 402500) [212]
+[210]    0.0    0.00    0.00     160         elapsed_time() (ticktock.cc:32 @ 4023e0) [210]
+-----------------------------------------------
+                0.00    0.00      40/80          main (main.cpp:53 @ 4013b4) [113]
+                0.00    0.00      40/80          main (main.cpp:47 @ 401607) [133]
+[211]    0.0    0.00    0.00      80         TickTock::tick() (ticktock.cc:45 @ 402420) [211]
+                0.00    0.00      80/160         elapsed_time() (ticktock.cc:32 @ 4023e0) [210]
+-----------------------------------------------
+                0.00    0.00      40/80          main (main.cpp:52 @ 401399) [110]
+                0.00    0.00      40/80          main (main.cpp:58 @ 4015d7) [128]
+[212]    0.0    0.00    0.00      80         TickTock::silent_tock() const (ticktock.cc:57 @ 402500) [212]
+                0.00    0.00      80/160         elapsed_time() (ticktock.cc:32 @ 4023e0) [210]
+-----------------------------------------------
+                0.00    0.00      40/40          main (main.cpp:50 @ 40165a) [138]
+[213]    0.0    0.00    0.00      40         output(ra::rarray<double, 2>, float, int, int) (output.cpp:4 @ 4022c0) [213]
+-----------------------------------------------
+                0.00    0.00      40/40          main (main.cpp:56 @ 4014aa) [127]
+[214]    0.0    0.00    0.00      40         timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:7 @ 402060) [214]
+-----------------------------------------------
+                0.00    0.00       1/3           clear (rarray:1677 @ 401950) [40]
+                0.00    0.00       1/3           clear (rarray:1432 @ 401998) [41]
+                0.00    0.00       1/3           ~rarray (rarray:1432 @ 4019ec) [199]
+[215]    0.0    0.00    0.00       3         ra::rarray<double, 2>::base(double* const*) (rarray:1757 @ 401190) [215]
+-----------------------------------------------
+                0.00    0.00       1/3           main (rarray:575 @ 4011d3) [91]
+                0.00    0.00       1/3           main (rarray:575 @ 4011f6) [93]
+                0.00    0.00       1/3           main (rarray:575 @ 401219) [95]
+[216]    0.0    0.00    0.00       3         ra::rarray<double, 2>::init_data(int const*, int) (rarray:1482 @ 401090) [216]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [315]
+[217]    0.0    0.00    0.00       1         _GLOBAL__sub_I__Z6outputN2ra6rarrayIdLi2EEEfii (output.cpp:14 @ 4023b0) [217]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [315]
+[218]    0.0    0.00    0.00       1         _GLOBAL__sub_I__Z7initialN2ra6rarrayIdLi2EEES1_ii (initialization.cpp:37 @ 402030) [218]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [315]
+[219]    0.0    0.00    0.00       1         _GLOBAL__sub_I__Z8timestepN2ra6rarrayIdLi2EEES1_S1_fffi (timestep.cpp:34 @ 402290) [219]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [315]
+[220]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN8TickTock4tickEv (ticktock.cc:62 @ 402530) [220]
+-----------------------------------------------
+                0.00    0.00       1/1           __do_global_ctors_aux [315]
+[221]    0.0    0.00    0.00       1         _GLOBAL__sub_I_main (main.cpp:77 @ 401de0) [221]
+-----------------------------------------------
+                0.00    0.00       1/1           main (main.cpp:26 @ 4012ba) [105]
+[222]    0.0    0.00    0.00       1         initial(ra::rarray<double, 2>, ra::rarray<double, 2>, int, int) (initialization.cpp:6 @ 401e10) [222]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+ [217] _GLOBAL__sub_I__Z6outputN2ra6rarrayIdLi2EEEfii (output.cpp:14 @ 4023b0) [1] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:15 @ 402175) [6] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 402242)
+ [218] _GLOBAL__sub_I__Z7initialN2ra6rarrayIdLi2EEES1_ii (initialization.cpp:37 @ 402030) [7] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:17 @ 402189) [14] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:28 @ 40224a)
+ [219] _GLOBAL__sub_I__Z8timestepN2ra6rarrayIdLi2EEES1_S1_fffi (timestep.cpp:34 @ 402290) [12] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:20 @ 40218c) [210] elapsed_time() (ticktock.cc:32 @ 4023e0)
+ [220] _GLOBAL__sub_I__ZN8TickTock4tickEv (ticktock.cc:62 @ 402530) [13] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:22 @ 402192) [215] ra::rarray<double, 2>::base(double* const*) (rarray:1757 @ 401190)
+ [221] _GLOBAL__sub_I_main (main.cpp:77 @ 401de0) [8] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:16 @ 4021a0) [216] ra::rarray<double, 2>::init_data(int const*, int) (rarray:1482 @ 401090)
+ [213] output(ra::rarray<double, 2>, float, int, int) (output.cpp:4 @ 4022c0) [9] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:22 @ 4021ac) [211] TickTock::tick() (ticktock.cc:45 @ 402420)
+   [3] output(ra::rarray<double, 2>, float, int, int) (output.cpp:9 @ 402301) [5] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 4021cc) [212] TickTock::silent_tock() const (ticktock.cc:57 @ 402500)
+ [222] initial(ra::rarray<double, 2>, ra::rarray<double, 2>, int, int) (initialization.cpp:6 @ 401e10) [10] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:23 @ 4021da) [2] base (rarray:1761 @ 4020bb)
+ [214] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:7 @ 402060) [11] timestep(ra::rarray<double, 2>, ra::rarray<double, 2>, ra::rarray<double, 2>, float, float, float, int) (timestep.cpp:30 @ 40223c) [4] operator[] (rarray:1373 @ 4021d6)

@@ -1,0 +1,28 @@
+CPP = g++
+#CPPFLAGS = -I${GSLINC} -std=c++11 -O2
+#LDFLAGS = -L${CSLINC}
+CPPFLAGS = -I${SCINET_BOOST_INC} -O2 -std=c++11
+LDFLAGS = -L${SCINET_BOOST_LIB}
+CPPFLAGS += -DUSE_SINGLE_HEADER_BOOST_TEST_FRAMEWORK
+
+all: testrun
+
+#testrun: test_timestep.o timestep.o 
+#	${CPP} -o testrun test_timestep.o timestep.o 
+
+testrun: test_timestep.o timestep.o 
+	${CPP} ${CPPFLAGS} ${LDFLAGS} -DBOOST_TEST_DYN_LINK -o testrun test_timestep.o timestep.o -lboost_unit_test_framework
+
+test_timestep.o: test_timestep.cpp ant.h
+	${CPP} ${CPPFLAGS} -c -o test_timestep.o test_timestep.cpp
+
+timestep.o: timestep.cpp
+	${CPP} ${CPPFLAGS} -c -o timestep.o timestep.cpp
+
+	
+
+run: testrun
+	./testrun > boost_result.txt
+
+clean:
+	rm -f  *o 

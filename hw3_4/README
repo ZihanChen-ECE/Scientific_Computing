@@ -1,0 +1,5 @@
+This is the assignment3 for Zihan Chen("zhchen" for SciNet account).
+
+There are 4 files and 2 directories inside. The two directories contain all the source file, header file, makefile, binary file that I ran on my own computer and SciNet. The file "Assignment3_report.txt" contains all the resule and my analyze for the problem 1 and 2, the file "profiling_report.txt" contains the results of the profiling and the command I ran, while the file "unit_test_report.txt" contains the results of the unit testing for my single time_step module.
+
+Thank you for helping me with the assignment!

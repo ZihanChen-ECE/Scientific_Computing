@@ -1,0 +1,38 @@
+CPP = g++
+CPPFLAGS = -I${GSLINC}-std=c++11 -O2 -pg -g
+LDFLAGS = -L${CSLINC}
+
+all: antrun
+
+antrun: main.o initialization.o timestep.o output.o ticktock.o
+	${CPP} -pg -o antrun main.o initialization.o timestep.o output.o ticktock.o
+
+main.o: main.cpp ant.h
+	${CPP} ${CPPFLAGS} -c -o main.o main.cpp
+
+initialization.o: initialization.cpp
+	${CPP} ${CPPFLAGS} -c -o initialization.o initialization.cpp
+
+timestep.o: timestep.cpp output.h
+	${CPP} ${CPPFLAGS} -c -o timestep.o timestep.cpp
+
+output.o: output.cpp 
+	${CPP} ${CPPFLAGS} -c -o output.o output.cpp
+
+ticktock: ticktock.cc ticktock.h
+	${CPP} ${CPPFLAGS} -c -o ticktock.o ticktock.cc
+
+	
+
+run: antrun
+	./antrun --matsize=2500
+
+gprof: antrun gmon.out
+	$ gprof antrun gmon.out > gprof_result_modified_antstiming.txt
+
+gprofline: antrun gmon.out
+	$ gprof --line antrun gmon.out | more > gprofline_result_modified_antstiming.txt
+
+
+clean:
+	rm -f  *o 
